@@ -43,7 +43,7 @@ function deleteElement(){ //deleta elemento que o mouse está por cima -> só é
     lines.forEach( v =>{ //verifica se está por cima de um vetor
       if(v.isHover(mousePosition())){
         lines.splice(lines.indexOf(v),1) //tira o vetor da lista de vetores. Então, automaticamente, ele não será mais desenhado
-        updatePointSequence() //recalcula os pontos quanto for eliminado um vetor
+        regeneratePoints() //recalcula os pontos quanto for eliminado um vetor
         return;
       }
     })
@@ -52,6 +52,7 @@ function deleteElement(){ //deleta elemento que o mouse está por cima -> só é
 
 function regeneratePoints(){ //repopula o vetor de pontos baseado nos pontos dos vetores existentes
     points = []
+    if(lines.length < 2){intersecPoint = null} //se não tiverem duas linhas, então não terá ponto de intersecção
     
     lines.forEach(v =>{ //para cada vetor da lista
         points.push(v.point1)

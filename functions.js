@@ -18,12 +18,22 @@ function mousePosition(){ //quando chamada, retorna a posição do mouse
 
 //adaptado de https://www.inf.pucrs.br/~pinho/CG/Aulas/OpenGL/Interseccao/CalcIntersec.html#:~:text=Para%20obter%20o%20ponto%20de,Pi.
 function intersectionPoint(line1,line2){
-    let det = (line2.point2.x - line2.point1.x) * (line1.point2.y - line1.point1.y)  -  (line2.point2.y - line2.point1.y) * (line1.point2.x - line1.point1.x)
-    if(det == 0){
+    if(line1.linear == line2.linear && line1.angular == line2.angular){
+        mainMessage = "Os segmentos são colineares"
         return false
     }
+    else if(line1.angular == line2.angular){
+        mainMessage = "Os segmentos são paralelos"
+        return false
+    }
+    
+    let det = (line2.point2.x - line2.point1.x) * (line1.point2.y - line1.point1.y)  -  (line2.point2.y - line2.point1.y) * (line1.point2.x - line1.point1.x)
+    // if(det == 0){
+    //     mainMessage = "Os segmentos não se cruzam"
+    //     return false
+    // }
     let s = ((line2.point2.x - line2.point1.x) * (line2.point1.y - line1.point1.y) - (line2.point2.y - line2.point1.y) * (line2.point1.x - line1.point1.x))/ det ;
-    let t = ((line1.point2.x - line1.point1.x) * (line2.point1.y - line1.point1.y) - (line1.point2.y - line1.point1.y) * (line2.point1.x - line1.point1.x))/ det ;
+    // let t = ((line1.point2.x - line1.point1.x) * (line2.point1.y - line1.point1.y) - (line1.point2.y - line1.point1.y) * (line2.point1.x - line1.point1.x))/ det ;
 
     let x = line1.point1.x + (line1.point2.x-line1.point1.x)*s
     let y = line1.point1.y + (line1.point2.y-line1.point1.y)*s;
@@ -31,9 +41,12 @@ function intersectionPoint(line1,line2){
     let intersecPoint = new Point([x,y], color(0,0,0))
 
     if(line1.isHover(intersecPoint.pos) && line2.isHover(intersecPoint.pos)){ //verifica se o ponto está em cima das linhas, pois essa função projeta os segmentos como se fossem retas
+        mainMessage = "Ponto de intersecção encontrado"
         return intersecPoint
+
     }
     else{
+        mainMessage = "O ponto de intersecção está fora dos segmentos"
         return false
     }
 }
@@ -52,10 +65,20 @@ function deleteElement(){ //deleta elemento que o mouse está por cima -> só é
 
 function regeneratePoints(){ //repopula o vetor de pontos baseado nos pontos dos vetores existentes
     points = []
-    if(lines.length < 2){intersecPoint = null} //se não tiverem duas linhas, então não terá ponto de intersecção
+    if(lines.length < 2){
+        intersecPoint = null
+        mainMessage = "Desenhe os segmentos de retas"
+    } //se não tiverem duas linhas, então não terá ponto de intersecção
     
     lines.forEach(v =>{ //para cada vetor da lista
         points.push(v.point1)
         points.push(v.point2) //adicionará o último ponto desse vetor
     })
   }
+
+function clearAll(){
+    points = []
+    intersecPoint = null
+    lines = []
+    mainMessage = "Desenhe os segmentos de retas"
+}

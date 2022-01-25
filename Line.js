@@ -1,5 +1,5 @@
 class Line{ //Classe para os vetores
-    constructor(point1,point2, paint = color(0,0,0)){
+    constructor(point1,point2, paint){
     
       this.point1 = point1 //primeiro ponto (tipo Point)
       this.point2 = point2 //segundo ponto (tipo Point)
@@ -20,9 +20,7 @@ class Line{ //Classe para os vetores
       this.linear = this.y1 - this.angular*this.x1 //coeficiente linear
       
       this.weight = 2 //largura da linha
-  
-      //valor escalar do vetor
-  
+    
     }
     
     draw(){
@@ -64,38 +62,5 @@ class Line{ //Classe para os vetores
     lineFunction(x){ //função da reta. Retorna um valor de Y para o X dado.
       return this.angular*x + this.linear
     }
-  
-    setPoints(p1){ //atualiza os pontos do vetor, sem que ele perca sua identidade. Deve ser passado como parâmetro um objeto Point que será o primeiro ponto do vetor
-      this.point1 = p1;
-      this.x1 = this.point1.x
-      this.y1 = this.point1.y
-          
-      this.setPoint2() //atualiza o ponto 2
-    }
-  
-    setPoint2(){ //recalcula o ponto 2 com base no ponto 1, sem perder as propriedades do vetor
-      //o novo ponto 2 deverá ter a mesma distância do ponto 1 que o antigo tinha
-      this.x2 = this.x1 + this.dx
-      this.y2 = this.y1 + this.dy
-      this.point2 = new Point([this.x2,this.y2], color(1,31,75))
-    }
     
   }
-  
-  // https://stackoverflow.com/questions/44874243/drawing-arrows-in-p5js
-  // function arrow( p1, p2 ){ //desenha uma linha com uma seta na ponta
-  //   let x1 = p1.x
-  //   let y1 = p1.y
-  //   let x2 = p2.x
-  //   let y2 = p2.y
-  
-  //   var angle = atan2(y2-y1,x2-x1);
-  //   var  off  = 12
-  //   var hoff  = off*0.6
-  //   line(x1,y1, x2,y2)
-  //   push()  
-  //     translate(x2,y2);
-  //     rotate(angle);
-  //     triangle(0,0, -off, hoff, -off, -hoff);
-  //   pop()
-  // }

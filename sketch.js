@@ -5,6 +5,7 @@ var currentLine; //vetor atual (o que muda com o mouse)
 var currentPoint;
 var drawingLine = false; //diz se está em processo de desenhar um segmento
 var isDrawing = true; //diz se está "pausado" ou não
+var mainMessage = "Desenhe os segmentos"
 
 //dimensoes canva
 var cnvWidth = 550
@@ -21,6 +22,10 @@ function draw() {
   currentPoint = new Point(mousePosition(), color(1,31,75))
   fill (0,0,0)
   text ("[DEL] - Deletar segmento", 10, 30)
+  text ("[C] - Apagar tudo", 200, 30)
+  // fontSize(40)
+  
+  text (mainMessage, cnvWidth/2 - textWidth(mainMessage)/2, cnvHeight - 20)
   
   lines.forEach(v =>{ //desenhando os vetores
     v.draw()
@@ -50,7 +55,7 @@ function draw() {
 function mousePressed(){
   if(mouseButton === "left" && isDrawing){ //se apertar com o botao esquerdo e não tiver pausado
     if(lines.length > 1){
-      console.log("apague uma reta")
+      mainMessage = "Apague um dos segmentos"
     }
     else{
       if(drawingLine){
@@ -63,7 +68,6 @@ function mousePressed(){
   
       if(lines.length > 1){
         intersecPoint = intersectionPoint(lines[0],lines[1])
-        if(!intersecPoint){console.log("o segmentos de reta não se cruzam")}
       }
     }
   }
@@ -71,33 +75,12 @@ function mousePressed(){
 
 function keyPressed(){
   switch(keyCode){
-    
-    case(83): //somar
-      sum()
-      break
-      
-    case(27): //"pausar"
-      isDrawing = !(isDrawing)
-      break
-    
     case(67): //limpar
       clearAll()
       break
     
-    case(69): //embaralharar
-    if(vectors.length > 1){
-      shuffleVectors()
-    }
-      break
-    
     case(46): //apagar um elemento
       deleteElement()
-      break
-
-    case(65): //centralizar pontos
-      if(points.length > 1){
-        centralizePoints()
-      }
       break
 
     default:
